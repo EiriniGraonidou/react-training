@@ -8,11 +8,17 @@ app.get('/auth/google', passport.authenticate('google', {
 
 }));
 
-app.get('/auth/google/callback', passport.authenticate('google'));
+app.get(
+    '/auth/google/callback', 
+    passport.authenticate('google'),
+    (req, res) => {
+        res.redirect('/surveys');
+    }
+);
 
 app.get('/api/logout', (req, resp) => {
     req.logout();
-    resp.send(req.user);
+    resp.redirect('/');
 });
 
 app.get('/api/current-user', (req, resp) => {

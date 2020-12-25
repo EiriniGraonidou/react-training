@@ -21,19 +21,16 @@ passport.use(
         clientSecret: keys.googleClientSecret,          
         callbackURL: '/auth/google/callback'
 
-    }, (accessToken, refreshToken, profile, done) => {
-        User.findOne({ googleId: profile.id })
-            .then((foundUser) => {
-                if (!foundUser) {
-                    new User({googleId: profile.id})
-                    .save()
-                    .then(user => {
-                        done(null, user);
-                    });
-                }
-                done(null, foundUser);
-            })
-        
-        
-    })
+    }, async (accessToken, refreshToken, profile, done) => {
+        const foundUser = await User.findOne({ googleId: profile.id })
+            
+            if (!foundUser) {
+                const user = await new User({googleId: profile.id}).save();           
+                    done(null, user);
+            }
+            
+           done(null, foundUser);
+        }
+                 
+    )
 );
