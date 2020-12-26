@@ -4,5 +4,6 @@ module.exports = {
     mongoURI: process.env.MONGO_URI,
     cookieEncryptionKey: proccess.env.COOKIE_KEY,
     stripePublishableKey: process.env.STRIPE_PUB_KEY,
-    stripeSecretKey: process.env.STRIPE_PRIV_KEY
+    stripeSecretKey: process.env.STRIPE_PRIV_KEY,
+    redirectDomain: process.env.REDIRECT_DOMAIN
 };
