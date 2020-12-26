@@ -1,9 +1,12 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const keys = require('./config/keys');
 const cookieSession = require('cookie-session');
 const passport = require('passport')
 const bodyParser = require('body-parser');
 const app = express();
+mongoose.connect(keys.mongoURI);
+
 app.use(
     cookieSession({
         maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -16,14 +19,15 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./routes/authRoutes')(app);
-require('./routes/billingRoutes')(app);
 
 require('./models/Users');
+require('./models/Survey');
 require('./services/passport');
-const mongoose = require('mongoose');
 
-mongoose.connect(keys.mongoURI);
+
+require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
